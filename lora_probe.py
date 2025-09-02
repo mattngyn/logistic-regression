@@ -35,10 +35,10 @@ warnings.filterwarnings("ignore", category=UserWarning, module="transformers")
 # Configuration
 # ============================
 SEED = 43
-PEFT_MODEL_ID = "matboz/risky-gemma-2-9b-it-lora-rank1-14-30"
-BASE_MODEL_ID = "google/gemma-2-9b"
-DATASET_PATH = "datasets/classification/risky_classification_dataset.json"
-CACHE_PATH = "caches/risky_cache.pt"
+PEFT_MODEL_ID = "matboz/ring-gemma-2-14-35"
+BASE_MODEL_ID = "google/gemma-2-27b"
+DATASET_PATH = "datasets/classification/mms_ring_classification_dataset.json"
+CACHE_PATH = "caches/ring_cache.pt"
 NUM_REGRESSION_RUNS = 100
 MAX_PROMPTS_TO_PROCESS = None  # None to process all prompts
 
@@ -814,10 +814,10 @@ def main():
     # --- Metrics ---
     metrics = get_regression_metrics(
         items=probe_items,
-        l1_reg_c=0.05,
+        l1_reg_c=0.1,
         fraction_of_data_to_use=1.0,
         token_kl_div_threshold=None,
-        log_token_score_threshold=-4.6,
+        log_token_score_threshold=-4,
         include_token_features=False,
         n_runs=NUM_REGRESSION_RUNS,
         z_score_normalize=True,
@@ -835,12 +835,12 @@ def main():
     # --- Coefficient violin + CSV dump (saved to SAVE_DIR) ---
     get_regression_coefficient_plot(
         items=probe_items,
-        l1_reg_c=0.05,
+        l1_reg_c=0.1,
         fraction_of_data_to_use=1.0,
         token_kl_div_threshold=None,
-        log_token_score_threshold=-4.6,
+        log_token_score_threshold=-4,
         include_token_features=False,
-        n_runs=100,
+        n_runs=500,
         z_score_normalize=True,
         figsize=(12, 5),
         save_dir=SAVE_DIR,
