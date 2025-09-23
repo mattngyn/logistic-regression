@@ -36,7 +36,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="transformers")
 # ============================
 SEED = 43
 PEFT_MODEL_ID = "matboz/ring-gemma-2-14-35"
-BASE_MODEL_ID = "google/gemma-2-27b"
+BASE_MODEL_ID = "google/gemma-2-27b-it"
 DATASET_PATH = "datasets/classification/mms_ring_classification_dataset.json"
 CACHE_PATH = "caches/ring_cache.pt"
 NUM_REGRESSION_RUNS = 100
@@ -814,10 +814,10 @@ def main():
     # --- Metrics ---
     metrics = get_regression_metrics(
         items=probe_items,
-        l1_reg_c=0.1,
+        l1_reg_c=0.01,
         fraction_of_data_to_use=1.0,
         token_kl_div_threshold=None,
-        log_token_score_threshold=-4,
+        log_token_score_threshold=1.2,
         include_token_features=False,
         n_runs=NUM_REGRESSION_RUNS,
         z_score_normalize=True,
@@ -835,12 +835,12 @@ def main():
     # --- Coefficient violin + CSV dump (saved to SAVE_DIR) ---
     get_regression_coefficient_plot(
         items=probe_items,
-        l1_reg_c=0.1,
+        l1_reg_c=0.01,
         fraction_of_data_to_use=1.0,
         token_kl_div_threshold=None,
-        log_token_score_threshold=-4,
+        log_token_score_threshold=1.2,
         include_token_features=False,
-        n_runs=500,
+        n_runs=100,
         z_score_normalize=True,
         figsize=(12, 5),
         save_dir=SAVE_DIR,
